@@ -5,6 +5,13 @@
 Settings for the Flydigi Vader 4 Pro on macOS, wirelessly through the 2.4G dongle: lighting (steady and animated),
 button remaps, deadzones, gyro, vibration, sleep timeout, backups. Flydigi's own app doesn't run on a Mac.
 
+![The VaderDaddy window: the controller with its parts to click](docs/screenshots/app-home.png)
+
+| | |
+|---|---|
+| ![Lighting: animated steps per LED](docs/screenshots/app-light.png) | ![Remapping a rear button](docs/screenshots/app-button.png) |
+| ![Stick range and dead zone](docs/screenshots/app-stick.png) | ![Vibration motors](docs/screenshots/app-vibration.png) |
+
 ## Tested with
 
 | | |
