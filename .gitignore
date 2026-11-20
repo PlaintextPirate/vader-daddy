@@ -1,0 +1,19 @@
+.venv/
+__pycache__/
+*.pyc
+.DS_Store
+# raw controller dumps and test logs from the investigation
+backups/
+# build output
+app/build/
+ui/build/
+ui/.svelte-kit/
+ui/node_modules/
+
+# local research material: vendor installers, decompiled binaries, first-session artefacts
+research/archive/
+research/spacestation/
+research/vendor/
+
+# working notes, kept locally
+VADER_HANDOFF.md

@@ -1,0 +1,6 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    { "name": "vader-app", "runtimeExecutable": "bin/vader", "runtimeArgs": ["serve"], "port": 47815 }
+  ]
+}

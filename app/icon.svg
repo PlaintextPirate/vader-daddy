@@ -1,0 +1,55 @@
+<!-- VaderDaddy app icon, 1024 × 1024 on the macOS icon grid (824 px rounded square, centred).
+     The controller's outline with its V light bar lit. Rendered to AppIcon.icns by app/icon.sh. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#2A3242"/>
+      <stop offset="1" stop-color="#10141C"/>
+    </linearGradient>
+    <linearGradient id="body" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#4B566B"/>
+      <stop offset="1" stop-color="#262D3B"/>
+    </linearGradient>
+    <linearGradient id="led" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#FF5A2A"/>
+      <stop offset="0.5" stop-color="#FFB03A"/>
+      <stop offset="1" stop-color="#FF5A2A"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="12" stdDeviation="14" flood-color="#000" flood-opacity="0.32"/>
+    </filter>
+    <filter id="glow" x="-50%" y="-80%" width="200%" height="260%">
+      <feGaussianBlur stdDeviation="26"/>
+    </filter>
+    <clipPath id="tile"><rect x="100" y="100" width="824" height="824" rx="186"/></clipPath>
+    <clipPath id="onbody"><path transform="translate(231 322) scale(0.78)" d="M200 56C262 47 304 45 360 45C416 45 458 47 520 56C602 63 646 98 668 160C690 222 710 296 716 356C722 424 688 464 638 464C598 464 576 438 554 402C536 370 514 354 476 354L244 354C206 354 184 370 166 402C144 438 122 464 82 464C32 464 -2 424 4 356C10 296 30 222 52 160C74 98 118 63 200 56Z"/></clipPath>
+  </defs>
+
+  <rect x="100" y="100" width="824" height="824" rx="186" fill="url(#bg)" filter="url(#shadow)"/>
+  <!-- Controller body: the app's own outline (720 x 419), scaled to 562 wide and centred. -->
+  <g transform="translate(231 322) scale(0.78)">
+    <path fill="url(#body)" stroke="#73819A" stroke-width="6" d="M200 56C262 47 304 45 360 45C416 45 458 47 520 56C602 63 646 98 668 160C690 222 710 296 716 356C722 424 688 464 638 464C598 464 576 438 554 402C536 370 514 354 476 354L244 354C206 354 184 370 166 402C144 438 122 464 82 464C32 464 -2 424 4 356C10 296 30 222 52 160C74 98 118 63 200 56Z"/>
+  </g>
+  <!-- The V light bar, drawn larger than life so it reads at small sizes. Its glow stays on the body. -->
+  <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <g clip-path="url(#onbody)">
+      <path d="M387 415L512 509L637 415" stroke="#FF7A2F" stroke-width="70" filter="url(#glow)" opacity="0.55"/>
+    </g>
+    <path d="M387 415L512 509L637 415" stroke="#0C0F15" stroke-width="50"/>
+    <g stroke="url(#led)" stroke-width="24">
+        <path d="M387 415L423 442"/>
+        <path d="M443.5 457.5L476 482"/>
+        <path d="M496.5 497.5L512 509L527.5 497.5"/>
+        <path d="M548 482L580.5 457.5"/>
+        <path d="M601 442L637 415"/>
+    </g>
+    <g stroke="#FFF1DC" stroke-width="6" opacity="0.75">
+        <path d="M387 415L423 442"/>
+        <path d="M443.5 457.5L476 482"/>
+        <path d="M496.5 497.5L512 509L527.5 497.5"/>
+        <path d="M548 482L580.5 457.5"/>
+        <path d="M601 442L637 415"/>
+    </g>
+  </g>
+  <rect x="101.5" y="101.5" width="821" height="821" rx="184.5" fill="none" stroke="#FFFFFF" stroke-opacity="0.10" stroke-width="3"/>
+</svg>

@@ -1,0 +1,5 @@
+#!/bin/bash
+# Launcher for the vader CLI (uses the project's .venv).
+SELF="$(/usr/bin/python3 -c 'import os,sys;print(os.path.realpath(sys.argv[1]))' "$0")"
+ROOT="$(cd "$(dirname "$SELF")/.." && pwd)"
+cd "$ROOT" && exec "$ROOT/.venv/bin/python" -m vader.cli "$@"

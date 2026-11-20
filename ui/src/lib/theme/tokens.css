@@ -1,0 +1,85 @@
+/* VaderDaddy design tokens. Values are taken from the v2 mock-ups (docs/redesign/v2). Prefixes keep them clear of
+   the classic UI's variables: --c colour, --r radius, --s space, --sh shadow, --t time, --fs/--fw type. */
+:root {
+  /* colour */
+  /* Side margin of the window's content: 40 px, growing in very wide windows so the layout stays together
+     (content is at most 1560 px wide, centred). */
+  --edge: max(40px, calc(50vw - 780px));
+  --c-ink: #1b2330;
+  --c-mute: #566173;
+  --c-accent: #ff7a2f;
+  --c-accent-hover: #ff8b4a;
+  --c-accent-ink: #1b2330;
+  --c-well: #e6ecf4;
+  --c-well-hover: #dae2ec;
+  --c-track: #c9d2de;
+  --c-line: #c3ccd9;
+  /* Boundaries a control needs to be seen by (slider track, switch off-track and knob edge, field border): ≥ 3:1 on
+     white and on the panel. */
+  --c-boundary: #848e9f;
+  /* Outline of the selected segment's white pill (≥ 3:1 against the well). */
+  --c-seg-edge: #7d8798;
+  /* Text of a disabled control: still ≥ 3:1 on white and on the well, clearly quieter than mute. */
+  --c-disabled: #7b8494;
+  --c-panel: rgba(255, 255, 255, 0.86);
+  --c-white: #ffffff;
+  --c-ink-hover: #2a3445;
+  --c-ok: #1f9d63;
+  --c-error: #d0342c;
+  --c-scrim: rgba(52, 63, 80, 0.34);
+  --c-selection: rgba(255, 122, 47, 0.28);
+
+  /* the cloudy page */
+  --bg-page:
+    radial-gradient(ellipse 34% 40% at 14% 18%, rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0) 70%),
+    radial-gradient(ellipse 30% 34% at 70% 14%, rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0) 70%),
+    radial-gradient(ellipse 26% 30% at 82% 86%, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0) 70%),
+    linear-gradient(170deg, #f4f7fb 0%, #dfe7f1 100%);
+
+  /* radius */
+  --r-8: 8px;
+  --r-12: 12px;
+  --r-16: 16px;
+  --r-20: 20px;
+  --r-28: 28px;
+  --r-pill: 999px;
+
+  /* space */
+  --s-1: 4px;
+  --s-2: 8px;
+  --s-3: 12px;
+  --s-4: 16px;
+  --s-5: 20px;
+  --s-6: 24px;
+  --s-8: 32px;
+  --s-10: 40px;
+  --s-12: 48px;
+
+  /* shadow */
+  --sh-panel: 0 1px 2px rgba(27, 35, 48, 0.04), 0 24px 56px -18px rgba(27, 35, 48, 0.22);
+  --sh-popover: 0 1px 2px rgba(27, 35, 48, 0.06), 0 14px 36px -10px rgba(27, 35, 48, 0.3);
+  --sh-bar: 0 2px 4px rgba(27, 35, 48, 0.12), 0 16px 32px -12px rgba(27, 35, 48, 0.45);
+  --sh-sheet: 0 30px 80px -20px rgba(27, 35, 48, 0.4);
+  --sh-thumb: 0 1px 3px rgba(27, 35, 48, 0.16), 0 1px 1px rgba(27, 35, 48, 0.06);
+
+  /* motion */
+  --t-fast: 120ms;
+  --t-med: 180ms;
+  --t-slow: 220ms;
+  --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
+
+  /* type */
+  --font: 'Inter Variable', 'Inter', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', system-ui, sans-serif;
+  --font-mono: ui-monospace, 'SF Mono', Menlo, monospace;
+  --fs-sm: 13px;
+  --fs-md: 15px;
+  --fs-lg: 16px;
+  --fs-xl: 28px;
+  --fw-regular: 400;
+  --fw-medium: 500;
+  --fw-semibold: 600;
+  --fw-bold: 700;
+
+  /* focus ring: 2 px ink around a 2 px white gap */
+  --focus-ring: 0 0 0 2px var(--c-white), 0 0 0 4px var(--c-ink);
+}
