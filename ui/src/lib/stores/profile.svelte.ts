@@ -63,7 +63,7 @@ class Profile {
   }, {
     toast: slot === 0,
     // Offline, a read error would contradict the no-controller screen: only a connected controller's refusal counts.
-    onError: (e) => { if (e.code !== 'no_device' && e.code !== 'service_down' && device.status === 'connected') this.readErrors[slot] = e.message; }
+    onError: (e) => { if (e.code !== 'no_device' && e.code !== 'service_down' && e.code !== 'timeout' && device.status === 'connected') this.readErrors[slot] = e.message; }
   });
 
   /** Takes bytes just read from the controller as the slot's original, dropping its draft. */

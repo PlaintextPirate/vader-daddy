@@ -33,11 +33,11 @@ or bricks a controller, that is at your own risk. See [LICENSE](LICENSE).
 Needs macOS 13 or later, the Xcode command line tools (`xcode-select --install`), [Homebrew](https://brew.sh)
 and Node.js (`brew install node`).
 
-1. Download `VaderDaddy-0.1.zip` from the [latest release](https://github.com/PlaintextPirate/vader-daddy/releases/latest) and unzip it somewhere it can stay (not Downloads).
+1. Download `VaderDaddy-0.1.1.zip` from the [latest release](https://github.com/PlaintextPirate/vader-daddy/releases/latest) and unzip it somewhere it can stay (not Downloads).
 2. In Terminal, go into the unzipped folder and run the installer:
 
 ```bash
-cd ~/VaderDaddy-0.1        # wherever you put it
+cd ~/VaderDaddy-0.1.1        # wherever you put it
 ./install.sh
 ```
 

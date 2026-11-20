@@ -124,7 +124,7 @@ export class VaderTransport {
       // Same timeout as a real call, so a hung service can be tried without one.
       const out = await Promise.race([
         demoControls.hang ? new Promise<never>(() => {}) : demoCall(op, body),
-        new Promise<never>((_, no) => setTimeout(() => no(new AppError('service_down', copy.errors.timeout)), demoControls.timeoutMs))
+        new Promise<never>((_, no) => setTimeout(() => no(new AppError('timeout', copy.errors.timeout)), demoControls.timeoutMs))
       ]);
       this.log('rx', `${op} ok (demo)`);
       return out;
@@ -137,7 +137,8 @@ export class VaderTransport {
       r = await res.json();
     } catch (e) {
       const timedOut = e instanceof DOMException && (e.name === 'TimeoutError' || e.name === 'AbortError');
-      throw new AppError('service_down', timedOut ? copy.errors.timeout : copy.errors.service, e);
+      // A slow answer is not a dead service: the controller may be asleep or waking, and the next try often works.
+      throw new AppError(timedOut ? 'timeout' : 'service_down', timedOut ? copy.errors.timeout : copy.errors.service, e);
     }
     if (!r.ok) {
       // The service's own text (r.error) goes to the log through `detail`, never to the user.

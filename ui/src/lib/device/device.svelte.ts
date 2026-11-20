@@ -116,7 +116,7 @@ class Device {
       } catch (e) {
         const err = toAppError(e);
         log.add('error', `${label}: ${rawText(err)}`, err.detail);
-        if (err.code === 'no_device' || err.code === 'service_down') this.lost(err);
+        if (err.code === 'no_device' || err.code === 'service_down' || err.code === 'timeout') this.lost(err);
         opts.onError?.(err);
         // A lost controller shows as the no-controller screen; a toast on top would only repeat it.
         if (opts.toast !== false && err.code !== 'no_device') toasts.error(err.message);

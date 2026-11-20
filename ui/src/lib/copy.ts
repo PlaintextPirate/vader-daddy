@@ -422,7 +422,7 @@ export const copy = {
     controller: "The controller didn't answer as expected. Try again.",
     badReply: 'The controller sent an incomplete answer. Try again.',
     unexpected: 'Something went wrong. Try again; the log in Settings has the details.',
-    timeout: "The VaderDaddy service didn't answer in time. Quit and reopen the app.",
+    timeout: "The controller didn't answer in time. Press Home to wake it; the app keeps trying.",
     panel: 'Something went wrong in this panel. Close it and open it again.',
     region: 'Something went wrong here. The rest of the window still works.',
     retry: 'Try again',

@@ -184,7 +184,10 @@ def call(req):
             if _backend is not None:
                 _backend.close()
                 _backend = None
-            no_dev = "No controller found" in str(e) or getattr(e, "code", None) == "no_device"
+            # The dongle is plugged in but the controller behind it is off or asleep: the first question gets
+            # no reply. That is "no controller", not an error to show.
+            silent = op == "info" and "o reply" in str(e)
+            no_dev = silent or "No controller found" in str(e) or getattr(e, "code", None) == "no_device"
             return {"ok": False, "error": str(e) if isinstance(e, (VaderError, ValueError)) else f"{type(e).__name__}: {e}",
                     **({"code": "no_device"} if no_dev else {"code": "no_helper"} if getattr(e, "code", None) == "no_helper" else {})}
         finally:

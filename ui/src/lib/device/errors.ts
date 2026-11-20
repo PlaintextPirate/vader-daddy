@@ -5,7 +5,7 @@ import { copy } from '../copy.ts';
  * "disconnected", show the encode error in the save bar, …); `message` is the text the user sees, always from
  * copy.ts. Whatever raw text came with the failure (service errors, exceptions) is kept in `detail` for the log.
  */
-export type AppErrorCode = 'no_device' | 'service_down' | 'verify_failed' | 'too_long' | 'too_many' | 'bad_reply' | 'controller' | 'unsupported' | 'no_helper' | 'unknown';
+export type AppErrorCode = 'no_device' | 'service_down' | 'timeout' | 'verify_failed' | 'too_long' | 'too_many' | 'bad_reply' | 'controller' | 'unsupported' | 'no_helper' | 'unknown';
 
 export class AppError extends Error {
   code: AppErrorCode;
@@ -25,7 +25,7 @@ export class AppError extends Error {
 export function toAppError(e: unknown): AppError {
   if (e instanceof AppError) return e;
   if (e instanceof DOMException && (e.name === 'AbortError' || e.name === 'TimeoutError'))
-    return new AppError('service_down', copy.errors.timeout, e);
+    return new AppError('timeout', copy.errors.timeout, e);
   const text = e instanceof Error ? e.message : String(e);
   // Messages from the codecs that mean "this does not fit on the controller".
   if (/macros at most|At most \d+ macros/i.test(text)) return new AppError('too_many', copy.script.tooMany, e);
