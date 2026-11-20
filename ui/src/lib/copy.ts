@@ -188,6 +188,7 @@ export const copy = {
     copyAll: 'Copy to all LEDs',
     keptNote: 'Kept after switch-off over USB-C, or over the dongle in XInput mode.',
     lostWarning: 'Over the dongle in DInput mode, lighting is lost when the controller switches off.',
+    previewing: 'Showing the lighting on the controller',
     dinputNoSave: "Lighting can't be saved over the dongle in DInput mode. Switch the controller to XInput mode, or plug in the cable.",
     saved: 'Lighting saved to the controller',
     // Change-list labels.
@@ -358,7 +359,9 @@ export const copy = {
   },
   settings: {
     title: 'Settings',
-    sections: { controller: 'Controller', power: 'Power', keys: 'Paddle keys', diagnostics: 'Diagnostics' },
+    sections: { controller: 'Controller', power: 'Power', keys: 'Paddle keys', app: 'This Mac', diagnostics: 'Diagnostics' },
+    dockAnimated: 'Animated Dock icon',
+    dockAnimatedHelp: "The Dock icon runs through an animated profile's colours. Off shows the first step, still.",
     intro: 'These apply to the whole controller and take effect straight away.',
     dongleOnly: 'Available over the dongle in XInput mode.',
     sleepDongleOnly: 'The switch-off timer is available over the dongle in XInput mode.',

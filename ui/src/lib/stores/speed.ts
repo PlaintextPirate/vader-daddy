@@ -8,6 +8,11 @@
 export const SPEED_MIN = 1;
 export const SPEED_MAX = 100;
 export const FACTORY_SPEED = 16;
+/**
+ * Assumed duration of one step per unit of the stored speed. Not measured: 50 looked faster than the controller,
+ * so this is the next round guess. The controller fades from one step's colour to the next.
+ */
+export const MS_PER_SPEED_UNIT = 100;
 
 /** Upper bounds (inclusive) of the fast and medium bands, in stored units. */
 export const FAST_MAX = 10;

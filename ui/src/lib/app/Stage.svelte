@@ -18,11 +18,6 @@
   let { bus, children }: { bus: InputBus; children?: Snippet } = $props();
 
   const PADDLES = ['m1', 'm2', 'm3', 'm4'] as const;
-  /**
-   * Assumed duration of one step per unit of the controller's loop time. Not measured: 50 looked faster than the
-   * controller, so this is the next round guess. The controller fades from one step's colour to the next.
-   */
-  const MS_PER_SPEED_UNIT = 100;
   let fade = $state(0);
 
   // Fields the light panel sets while it is open (hovered LED, a step to hold still). Read defensively so the
@@ -71,17 +66,23 @@
     return () => h.detach();
   });
 
-  // Animated lighting: walk the steps at the draft's speed; held on a step while the panel previews one, and
-  // paused while hidden or with reduced motion.
+  // Animated lighting: follow the lighting store's clock (the controller's position in its loop, as far as the app
+  // knows), fading towards the next step so the colour lands on it as the step ends. Held on a step while the
+  // panel previews one; still with reduced motion.
   $effect(() => {
     const d = lighting.draft;
-    if (!d || d.mode !== 'animated' || preview !== null) { step = 0; fade = 0; return; }
+    void lighting.animRev;
+    if (!d || d.mode !== 'animated' || preview !== null || matchMedia('(prefers-reduced-motion: reduce)').matches) { step = 0; fade = 0; return; }
     const steps = Math.max(1, ...d.grid.map((s) => s.length));
-    const ms = Math.max(80, d.speed * MS_PER_SPEED_UNIT);
-    fade = ms; // each colour fades into the next over the whole step, as on the controller
-    const reduced = matchMedia('(prefers-reduced-motion: reduce)');
-    const t = setInterval(() => { if (!document.hidden && !reduced.matches) step = (step + 1) % steps; }, ms);
-    return () => clearInterval(t);
+    let timer: ReturnType<typeof setTimeout> | undefined, raf = 0;
+    const next = (first: boolean) => {
+      const pos = lighting.animPos(), k = Math.floor(pos), left = Math.max(1, (k + 1 - pos) * lighting.animStepMs);
+      const head = () => { fade = left; step = (k + 1) % steps; };
+      if (first) { fade = 0; step = k % steps; raf = requestAnimationFrame(head); } else head();
+      timer = setTimeout(() => next(false), left + 4);
+    };
+    next(true);
+    return () => { clearTimeout(timer); cancelAnimationFrame(raf); };
   });
 
   // Narrow windows: the inspector overlays the right of the window, so the stage shrinks into the room left of it.

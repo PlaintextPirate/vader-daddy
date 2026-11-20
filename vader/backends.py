@@ -110,10 +110,14 @@ class HelperBackend:
         self.call("func_set", sub=sub, value=value)
 
     def close(self):
-        try:
-            self.s.close()
-        except OSError:
-            pass
+        # Both the file wrapper and the socket: closing only the socket leaves the connection open until Python
+        # frees the wrapper, and the helper serves one client at a time, so every later request waited behind
+        # it for up to 30 s (seen 2026-11-20 as "didn't answer in time" with the controller off).
+        for c in (self.f, self.s):
+            try:
+                c.close()
+            except (OSError, ValueError):
+                pass
 
 
 class HidBackend:

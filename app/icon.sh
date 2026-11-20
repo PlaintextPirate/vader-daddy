@@ -15,4 +15,8 @@ for s in 16 32 128 256 512; do
 done
 iconutil -c icns "$SET" -o "$HERE/AppIcon.icns"
 cp "$TMP/1024.png" "$HERE/icon.png"
+# The same tile with the light bar unlit: the running app draws the profile's own colours on it (main.swift).
+sed 's/<g id="lit">/<g id="lit" display="none">/' "$HERE/icon.svg" > "$TMP/base.svg"
+"$CHROME" --headless --disable-gpu --hide-scrollbars --force-device-scale-factor=1 --window-size=1024,1024 \
+  --default-background-color=00000000 --screenshot="$HERE/icon-base.png" "file://$TMP/base.svg" >/dev/null 2>&1
 echo "Wrote $HERE/AppIcon.icns"

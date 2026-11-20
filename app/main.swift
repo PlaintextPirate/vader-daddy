@@ -5,7 +5,7 @@ import WebKit
 
 let serviceURL = URL(string: "http://127.0.0.1:47815/")!
 
-final class AppDelegate: NSObject, NSApplicationDelegate, WKNavigationDelegate, WKUIDelegate, WKDownloadDelegate {
+final class AppDelegate: NSObject, NSApplicationDelegate, WKNavigationDelegate, WKUIDelegate, WKDownloadDelegate, WKScriptMessageHandler {
     var window: NSWindow!
     var web: WKWebView!
     var service: Process?
@@ -16,7 +16,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate, WKNavigationDelegate, 
         // Light design: the window and the area behind the page match the page's top colour (#F4F7FB), so
         // nothing dark shows before the page paints, while resizing, or when scrolling bounces.
         let background = NSColor(srgbRed: 0xF4 / 255, green: 0xF7 / 255, blue: 0xFB / 255, alpha: 1)
-        web = WKWebView(frame: .zero, configuration: WKWebViewConfiguration())
+        let config = WKWebViewConfiguration()
+        config.userContentController.add(self, name: "vaderIcon")  // the page posts the light bar's colours
+        web = WKWebView(frame: .zero, configuration: config)
         web.navigationDelegate = self
         web.uiDelegate = self
         web.setValue(false, forKey: "drawsBackground")  // the window's background shows until the page paints
@@ -90,6 +92,65 @@ final class AppDelegate: NSObject, NSApplicationDelegate, WKNavigationDelegate, 
         p.standardError = FileHandle.nullDevice
         try? p.run()
         service = p
+    }
+
+    // Dock icon: the light bar in the colours of the profile on screen. The page posts five "#rrggbb" strings,
+    // left to right along the V (an empty list puts the stock icon back). Only while the app runs.
+    static let ledSegments: [[(CGFloat, CGFloat)]] = [
+        [(387, 415), (423, 442)], [(443.5, 457.5), (476, 482)], [(496.5, 497.5), (512, 509), (527.5, 497.5)],
+        [(548, 482), (580.5, 457.5)], [(601, 442), (637, 415)],
+    ]
+    func userContentController(_ controller: WKUserContentController, didReceive message: WKScriptMessage) {
+        // Only our own page may change the icon.
+        guard message.name == "vaderIcon", message.frameInfo.isMainFrame,
+              message.frameInfo.request.url?.host == serviceURL.host, message.frameInfo.request.url?.port == serviceURL.port else { return }
+        let colours = (message.body as? [String] ?? []).compactMap(AppDelegate.colour)
+        guard colours.count == 5, let url = Bundle.main.url(forResource: "IconBase", withExtension: "png"),
+              let base = NSImage(contentsOf: url) else { NSApp.applicationIconImage = nil; return }
+        // Drawn at 512 pt (plenty for the Dock) in icon.svg's 1024 coordinates; animated lighting redraws it
+        // several times a second.
+        let size = NSSize(width: 512, height: 512)
+        let icon = NSImage(size: size, flipped: true) { rect in  // flipped: same coordinates as icon.svg
+            let scale = NSAffineTransform()
+            scale.scale(by: rect.width / 1024)
+            scale.concat()
+            base.draw(in: NSRect(x: 0, y: 0, width: 1024, height: 1024))
+            for pass in 0..<2 {
+                for (i, points) in AppDelegate.ledSegments.enumerated() {
+                    let c = colours[i]
+                    let lit = c.brightnessComponent > 0.04
+                    let path = NSBezierPath()
+                    path.move(to: NSPoint(x: points[0].0, y: points[0].1))
+                    for p in points.dropFirst() { path.line(to: NSPoint(x: p.0, y: p.1)) }
+                    path.lineCapStyle = .round
+                    path.lineJoinStyle = .round
+                    NSGraphicsContext.saveGraphicsState()
+                    if pass == 0 {  // the LED itself, with its glow
+                        if lit {
+                            let glow = NSShadow()
+                            glow.shadowColor = c.withAlphaComponent(0.8)
+                            glow.shadowBlurRadius = 30
+                            glow.set()
+                        }
+                        (lit ? c : NSColor(srgbRed: 0.22, green: 0.25, blue: 0.30, alpha: 1)).setStroke()
+                        path.lineWidth = 24
+                        path.stroke()
+                    } else if lit {  // a lighter core, as in the stock icon
+                        (c.blended(withFraction: 0.65, of: .white) ?? c).withAlphaComponent(0.75).setStroke()
+                        path.lineWidth = 6
+                        path.stroke()
+                    }
+                    NSGraphicsContext.restoreGraphicsState()
+                }
+            }
+            return true
+        }
+        NSApp.applicationIconImage = icon
+    }
+    static func colour(_ hex: String) -> NSColor? {
+        let h = hex.hasPrefix("#") ? String(hex.dropFirst()) : hex
+        guard h.count == 6, let v = UInt32(h, radix: 16) else { return nil }
+        return NSColor(srgbRed: CGFloat((v >> 16) & 0xFF) / 255, green: CGFloat((v >> 8) & 0xFF) / 255, blue: CGFloat(v & 0xFF) / 255, alpha: 1)
     }
 
     func applicationWillTerminate(_ note: Notification) { service?.terminate() }

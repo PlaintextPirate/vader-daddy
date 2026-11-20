@@ -106,9 +106,9 @@ class Device {
   /**
    * Runs one action against the controller: actions are queued and run one at a time (`busy` stays set while
    * any is running or waiting); errors become a toast and `undefined`. `onError` sees the AppError first (e.g. to
-   * mark a slot as unreadable); `toast: false` keeps it quiet. The raw text of a failure goes to the log only.
+   * mark a slot as unreadable); `toast: false` keeps it quiet; `quiet` also keeps it out of `busy` (background writes). The raw text of a failure goes to the log only.
    */
-  run<T>(label: string, fn: () => Promise<T>, opts: { toast?: boolean; onError?: (e: AppError) => void } = {}): Promise<T | undefined> {
+  run<T>(label: string, fn: () => Promise<T>, opts: { toast?: boolean; onError?: (e: AppError) => void; quiet?: boolean } = {}): Promise<T | undefined> {
     return this.queue.run(label, async () => {
       log.add('info', `${label}…`);
       try {
@@ -122,7 +122,7 @@ class Device {
         if (opts.toast !== false && err.code !== 'no_device') toasts.error(err.message);
         return undefined;
       }
-    });
+    }, opts.quiet);
   }
 
   get canSaveLighting() { return !!this.info?.canSaveLighting; }

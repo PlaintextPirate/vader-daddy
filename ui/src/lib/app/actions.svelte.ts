@@ -100,6 +100,7 @@ export async function resolveSwitch(choice: 'save' | 'discard' | 'cancel') {
   if (slot === null) return;
   if (choice === 'cancel') { pending.slot = null; return; }
   if (choice === 'save' && !(await saveAll())) { pending.slot = null; return; }
-  if (choice === 'discard') { profile.discard(); lighting.discard(); }
+  // Discarded lighting was on the controller's LEDs as a preview: put the old lighting back before leaving the slot.
+  if (choice === 'discard') { profile.discard(); lighting.discard(); await lighting.showLive(); }
   await switchNow(slot);
 }

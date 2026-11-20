@@ -7,6 +7,7 @@ rm -rf "$OUT"; mkdir -p "$OUT/Contents/MacOS" "$OUT/Contents/Resources"
 ( cd "$ROOT/ui" && [ -d node_modules ] || npm i --no-audit --no-fund; npm run build >/dev/null )
 swiftc -O -target "$(uname -m)-apple-macos13.0" -o "$OUT/Contents/MacOS/VaderDaddy" "$ROOT/app/main.swift" -framework Cocoa -framework WebKit
 printf '%s\n' "$ROOT/bin/vader" > "$OUT/Contents/Resources/vader-path.txt"
+cp "$ROOT/app/icon-base.png" "$OUT/Contents/Resources/IconBase.png"
 cp "$ROOT/app/AppIcon.icns" "$OUT/Contents/Resources/AppIcon.icns"  # made from icon.svg by app/icon.sh
 cat > "$OUT/Contents/Info.plist" <<PL
 <?xml version="1.0" encoding="UTF-8"?>
@@ -18,8 +19,8 @@ cat > "$OUT/Contents/Info.plist" <<PL
   <key>CFBundleExecutable</key><string>VaderDaddy</string>
   <key>CFBundleIconFile</key><string>AppIcon</string>
   <key>CFBundlePackageType</key><string>APPL</string>
-  <key>CFBundleShortVersionString</key><string>0.1.1</string>
-  <key>CFBundleVersion</key><string>2</string>
+  <key>CFBundleShortVersionString</key><string>0.1.2</string>
+  <key>CFBundleVersion</key><string>3</string>
   <key>LSMinimumSystemVersion</key><string>13.0</string>
   <key>NSHighResolutionCapable</key><true/>
   <key>NSAppTransportSecurity</key><dict><key>NSAllowsLocalNetworking</key><true/></dict>

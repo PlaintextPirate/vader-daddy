@@ -22,12 +22,14 @@ export interface Flags {
    * permission. Never tried with a real key.
    */
   paddleKeys: boolean;
+  /** Lighting edits go to the controller as you make them (not saved until Save). */
+  liveLighting: boolean;
 }
 
 export const FLAGS_KEY = 'vaderdaddy.flags';
 
 export function readFlags(demo: boolean, stored: string | null, query: string | null): Flags {
-  const f: Flags = { responseCurve: demo, profileNames: true, pressToSelect: true, clickSwitches: true, paddleKeys: false };
+  const f: Flags = { responseCurve: demo, profileNames: true, pressToSelect: true, clickSwitches: true, paddleKeys: false, liveLighting: true };
   try {
     const s = stored ? JSON.parse(stored) : null;
     if (s && typeof s === 'object') for (const k of Object.keys(f) as (keyof Flags)[]) if (typeof s[k] === 'boolean') f[k] = s[k];

@@ -32,10 +32,11 @@
   </g>
   <!-- The V light bar, drawn larger than life so it reads at small sizes. Its glow stays on the body. -->
   <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M387 415L512 509L637 415" stroke="#0C0F15" stroke-width="50"/>
+    <g id="lit">
     <g clip-path="url(#onbody)">
       <path d="M387 415L512 509L637 415" stroke="#FF7A2F" stroke-width="70" filter="url(#glow)" opacity="0.55"/>
     </g>
-    <path d="M387 415L512 509L637 415" stroke="#0C0F15" stroke-width="50"/>
     <g stroke="url(#led)" stroke-width="24">
         <path d="M387 415L423 442"/>
         <path d="M443.5 457.5L476 482"/>
@@ -49,6 +50,7 @@
         <path d="M496.5 497.5L512 509L527.5 497.5"/>
         <path d="M548 482L580.5 457.5"/>
         <path d="M601 442L637 415"/>
+    </g>
     </g>
   </g>
   <rect x="101.5" y="101.5" width="821" height="821" rx="184.5" fill="none" stroke="#FFFFFF" stroke-opacity="0.10" stroke-width="3"/>

@@ -12,6 +12,7 @@
   import { toasts } from '$lib/stores/toasts.svelte';
   import { hardware } from './hardware.svelte';
   import { flags } from '$lib/flags';
+  import { prefs } from '$lib/stores/prefs.svelte';
   import ChoicePicker from './ChoicePicker.svelte';
   import LogView from './LogView.svelte';
   import ViewCard from './ViewCard.svelte';
@@ -170,6 +171,21 @@
         disabled={busy} onchange={sleepTyped} />
     {/if}
   </section>
+
+  {#if prefs.hasDock}
+  <section aria-labelledby="set-app">
+    <h2 id="set-app">{copy.settings.sections.app}</h2>
+    <div class="row" id="setting-dock">
+      <div class="text"><span class="label">{copy.settings.dockAnimated}</span><span class="help">{copy.settings.dockAnimatedHelp}</span></div>
+      <div class="end">
+        <div class="seg" style:--seg-width="168px">
+          <Seg options={[{ id: '0', label: copy.common.off }, { id: '1', label: copy.common.on }]} value={prefs.dockAnimated ? '1' : '0'}
+            label={copy.settings.dockAnimated} onchange={(id) => (prefs.dockAnimated = id === '1')} />
+        </div>
+      </div>
+    </div>
+  </section>
+  {/if}
 
   {#if flags.paddleKeys}
   <section aria-labelledby="set-keys">
